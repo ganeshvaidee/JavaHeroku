@@ -1,1 +1,1 @@
-worker: sh target/classes/HelloWorld
+worker: java -jar target/classes/HelloWorld-1.0-SNAPSHOT.jar
