@@ -1,4 +1,5 @@
 
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,8 +24,18 @@ public class HelloWorld {
     }
 
     private static Connection getConnection() throws URISyntaxException, SQLException {
-        String dbUrl = System.getenv("DATABASE_URL");
-        System.out.println(dbUrl);
-        return DriverManager.getConnection(dbUrl);
+        // String dbUrl = System.getenv("DATABASE_URL");
+
+
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+        System.out.println(dbUri);
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+
+        return DriverManager.getConnection(dbUrl, username, password);
+
+        // return DriverManager.getConnection(dbUrl);
     }
 }
